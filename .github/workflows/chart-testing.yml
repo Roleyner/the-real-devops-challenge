@@ -1,4 +1,4 @@
-name: Lint and Test Charts
+name: Lint, Test, and Document Helm Charts
 
 on:
   push:
@@ -54,3 +54,23 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: ct install --target-branch ${{ github.event.repository.default_branch }}
+
+      - name: Install helm-docs
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          wget https://github.com/norwoodj/helm-docs/releases/download/v1.6.0/helm-docs_1.6.0_Linux_x86_64.tar.gz
+          tar -xzvf helm-docs_1.6.0_Linux_x86_64.tar.gz
+          sudo mv helm-docs /usr/local/bin
+
+      - name: Generate Helm Chart Documentation
+        if: steps.list-changed.outputs.changed == 'true'
+        run: helm-docs
+
+      - name: Commit and push documentation
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ./challenge-2/my-web-server/README.md
+          git commit -m "Update Helm chart documentation"
+          git push origin ${{ github.ref }}
