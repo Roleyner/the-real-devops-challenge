@@ -1,9 +1,9 @@
 name: Lint and Test Charts
 
-on:
-  push:
+on: 
+  pull_request:
     branches:
-      - main
+      - main  # Change to your default branch if necessary
 
 jobs:
   lint-test:
@@ -26,7 +26,7 @@ jobs:
           check-latest: true
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.6.1
+        uses: helm/chart-testing-action@v2.7.0
 
       - name: Run chart-testing (list-changed)
         id: list-changed
@@ -35,6 +35,11 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Validate values.yaml against values.schema.json
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          helm lint ./challenge-2/my-web-server
 
       - name: Run chart-testing (lint)
         if: steps.list-changed.outputs.changed == 'true'
