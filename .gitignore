@@ -173,4 +173,13 @@ pip-selfcheck.json
 # Ignore all local history of files
 .history
 
+# Terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.terraform/
+**/.terraform.lock.hcl
+**/crash.log
+**/.terraform.tfstate.lock.info
+**/.terraform.tfstate.lock.info.backup
+
 # End of https://www.gitignore.io/api/code,venv,linux,python,virtualenv,visualstudiocode
