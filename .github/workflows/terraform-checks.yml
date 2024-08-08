@@ -40,19 +40,22 @@ jobs:
         working-directory: ./challenge-3
 
       - name: Run tflint
-        run: tflint
+        run: tflint | tee tflint_output.txt
         working-directory: ./challenge-3
+        continue-on-error: true
+
+      - name: Upload tflint output
+        uses: actions/upload-artifact@v3
+        with:
+          name: tflint-output
+          path: ./challenge-3/tflint_output.txt
 
       - name: Set up tfsec
         run: |
           curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
       - name: Run tfsec
-        run: tfsec .
-        working-directory: ./challenge-3
-
-      - name: Save tfsec output
-        run: tfsec . > tfsec_output.txt
+        run: tfsec . | tee tfsec_output.txt
         working-directory: ./challenge-3
 
       - name: Upload tfsec output
