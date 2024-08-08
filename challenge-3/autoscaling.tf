@@ -4,9 +4,9 @@ module "asg" {
 
   name = "app-asg"
 
-  min_size         = 1
-  max_size         = 3
-  desired_capacity = 1
+  min_size            = 1
+  max_size            = 3
+  desired_capacity    = 1
   vpc_zone_identifier = module.vpc.private_subnets
 
   launch_template_name        = "app-launch-template"

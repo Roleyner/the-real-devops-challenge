@@ -49,7 +49,7 @@ variable "db_instance_class" {
 variable "ami_id" {
   description = "The AMI ID for the EC2 instances"
   type        = string
-  default     = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2 AMI
+  default     = "ami-0c55b159cbfafe1f0" # Amazon Linux 2 AMI
 }
 
 variable "instance_type" {
